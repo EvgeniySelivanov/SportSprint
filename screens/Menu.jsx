@@ -7,14 +7,15 @@ import { CONSTANTS } from '../constants';
 import PlayBtn from '../components/Btns/PlayBtn';
 import ResetBtn from '../components/Btns/ResetBtn';
 import QuantityBtn from '../components/Btns/QuantityBtn';
+import VibroBtn from '../components/Btns/VibroBtn';
 const bgImage = require('../assets/bgMenu.png');
 const Space = styled(ImageBackground)`
   flex: 1;
   margin-top: 25px;
   margin-bottom: 25px;
   overflow: hidden;
-  justify-content:center;
-  align:center;
+  justify-content: center;
+  align: center;
 `;
 
 const StyledText = styled.Text`
@@ -37,28 +38,39 @@ const StyledMenu = styled.Text`
 
 const Menu = () => {
   const [quantity, setQuantity] = useState(CONSTANTS.GAME_QUANTITY);
+  const [vibro, setVibro] = useState(CONSTANTS.GAME_VIBRO);
+  const changeVibro = () => {
+    if (vibro) {
+      setVibro(false);
+    }else{
+      setVibro(true);
+    }
+  };
   const changeQuantity = () => {
-    if(quantity<=2){setQuantity((quantity) => quantity + 1);}
-    
+    if (quantity <= 2) {
+      setQuantity((quantity) => quantity + 1);
+    }
     console.log(quantity);
   };
   const play = () => {
-    navigation.navigate('SportSprint', {quantity});
+    navigation.navigate('SportSprint', { quantity });
   };
   const defaultOption = () => {
+    setVibro(false);
     setQuantity(CONSTANTS.GAME_QUANTITY);
-    console.log(quantity); 
-
   };
   const navigation = useNavigation();
   return (
-    <Space
-     source={bgImage}
-    >
+    <Space source={bgImage}>
       <StyledMenu>Menu</StyledMenu>
-      <PlayBtn  onPress={play} text={'Play'} />
-      <QuantityBtn onPress={changeQuantity} text={'Quantity indians UP:'} quantity={quantity}/>
-      <ResetBtn  onPress={defaultOption} text={'Reset options'} />
+      <PlayBtn onPress={play} text={'Play'} />
+      <QuantityBtn
+        onPress={changeQuantity}
+        text={'Quantity indians UP:'}
+        quantity={quantity}
+      />
+      <VibroBtn onPress={changeVibro} vibro={vibro} text={'Vibration'}/>
+      <ResetBtn onPress={defaultOption} text={'Reset options'} />
     </Space>
   );
 };
