@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { CONSTANTS } from '../constants';
 import PlayBtn from '../components/Btns/PlayBtn';
