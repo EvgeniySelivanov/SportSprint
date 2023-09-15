@@ -37,6 +37,7 @@ const ScoreText = styled.Text`
 `;
 
 const SportSprint = () => {
+ 
   let arrowPosition = {
     x: CONSTANTS.ARROW_POSITION.x,
     y: CONSTANTS.ARROW_POSITION.y,
@@ -45,13 +46,23 @@ const SportSprint = () => {
     arrowPosition.x = xPosition;
   };
 
-  const route = useRoute();
-  let quantity = route.params.quantity;
+  
+ 
   const [speed,setSpeed]=useState(14000);
+  const[quantity,setQuantity]=useState(0);
+  const route = useRoute();
   const [isGameRun, setIsGameRun] = useState(false);
   const [sound, setSound] = useState();
   const [music, setMusic] = useState(false);
   const [coin, setCoin] = useState({ quant: 0, visibility: true });
+
+
+  useEffect(()=>{
+    if (route.params && route.params.quantity) {
+      setQuantity(route.params.quantity);
+    }
+  },[route.params]);
+
 
   const coinPosition = useRef(
     new Animated.ValueXY(CONSTANTS.COIN_POSITION)
@@ -139,18 +150,34 @@ const getRandom=()=>{
 
 //restartn animation
   useEffect(() => {
-    shamanPosition.y.addListener(({value}) => {
+    indianPosition.y.addListener(({value}) => {
     const yPosition=value;
-    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 550&&speed>=2000){
+    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 65&&speed>=2000&&quantity===1){
       setSpeed((speed)=>speed-600);
-      
+      startGame();
+    }
+  });
+  indianWomenPosition.y.addListener(({value}) => {
+    const yPosition=value;
+    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 150&&speed>=2000&&quantity===2){
+      setSpeed((speed)=>speed-600);
+      startGame();
+    }
+  });
+  shamanPosition.y.addListener(({value}) => {
+    const yPosition=value;
+    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 550&&speed>=2000&&quantity===3){
+      setSpeed((speed)=>speed-600);
       startGame();
     }
   });
   return () => {
     shamanPosition.y.removeAllListeners();
+    indianPosition.y.removeAllListeners();
+    indianWomenPosition.y.removeAllListeners();
   };
-}, [shamanPosition.y]);
+  
+}, [shamanPosition.y,indianPosition.y,indianWomenPosition.y,quantity]);
 
 
   async function playSound() {
@@ -167,13 +194,21 @@ const getRandom=()=>{
   };
 
   const gameOver = () => {
+    Animated.timing(shamanPosition).stop();
+    Animated.timing(indianPosition).stop();
+    Animated.timing(indianWomenPosition).stop();
+    Animated.timing(coinPosition).stop();
     setCoin((coin) => ({
       ...coin,
       quant:0,
     }));
+    
+    setSpeed(14000);
     setIsGameRun(false);
     console.log('game stop');
   };
+
+
   const startGame = () => {
     coinPosition.setValue({
       x: getRandom(),
@@ -196,12 +231,21 @@ const getRandom=()=>{
       visibility: true,
     }));
     setIsGameRun(true);
-    moveCoin();
-    moveIndian();
-    moveIndianWomen();
-    moveShaman();
+    if(quantity===1){
+      moveCoin();
+      moveIndian();
+    }else if(quantity===2){
+      moveCoin();
+      moveIndian();
+      moveIndianWomen();
+    }else if(quantity===3){
+      moveCoin();
+      moveIndian();
+      moveIndianWomen();
+      moveShaman();
+    }
     console.log('game start');
-    console.log(speed);
+    console.log(quantity);
   };
 
   return (

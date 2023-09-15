@@ -7,6 +7,7 @@ import PlayBtn from '../components/Btns/PlayBtn';
 import ResetBtn from '../components/Btns/ResetBtn';
 import QuantityBtn from '../components/Btns/QuantityBtn';
 import VibroBtn from '../components/Btns/VibroBtn';
+import SoundBtn from '../components/Btns/SoundBtn';
 const bgImage = require('../assets/bgMenu.png');
 const Space = styled(ImageBackground)`
   flex: 1;
@@ -36,8 +37,10 @@ const StyledMenu = styled.Text`
 `;
 
 const Menu = () => {
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(1);
   const [vibro, setVibro] = useState();
+  const navigation = useNavigation();
+  // console.log(quantity);
   const changeVibro = () => {
     if (vibro) {
       setVibro(false);
@@ -48,8 +51,9 @@ const Menu = () => {
   const changeQuantity = () => {
     if (quantity <= 2) {
       setQuantity((quantity) => quantity + 1);
+     
     }
-    console.log(quantity);
+    
   };
   const play = () => {
     navigation.navigate('SportSprint', { quantity,vibro });
@@ -58,7 +62,10 @@ const Menu = () => {
     setVibro(false);
     setQuantity(CONSTANTS.GAME_QUANTITY);
   };
-  const navigation = useNavigation();
+ 
+
+
+  
   return (
     <Space source={bgImage}>
       <StyledMenu>Menu</StyledMenu>
