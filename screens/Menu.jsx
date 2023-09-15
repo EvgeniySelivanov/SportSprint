@@ -36,8 +36,8 @@ const StyledMenu = styled.Text`
 `;
 
 const Menu = () => {
-  const [quantity, setQuantity] = useState(CONSTANTS.GAME_QUANTITY);
-  const [vibro, setVibro] = useState(CONSTANTS.GAME_VIBRO);
+  const [quantity, setQuantity] = useState();
+  const [vibro, setVibro] = useState();
   const changeVibro = () => {
     if (vibro) {
       setVibro(false);
@@ -52,7 +52,7 @@ const Menu = () => {
     console.log(quantity);
   };
   const play = () => {
-    navigation.navigate('SportSprint', { quantity });
+    navigation.navigate('SportSprint', { quantity,vibro });
   };
   const defaultOption = () => {
     setVibro(false);
