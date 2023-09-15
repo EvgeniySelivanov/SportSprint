@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import { CONSTANTS } from '../constants';
+import { AppStateContext } from './AppStateContext';
 import PlayBtn from '../components/Btns/PlayBtn';
 import ResetBtn from '../components/Btns/ResetBtn';
 import QuantityBtn from '../components/Btns/QuantityBtn';
@@ -37,30 +38,34 @@ const StyledMenu = styled.Text`
 `;
 
 const Menu = () => {
-  const [quantity, setQuantity] = useState(1);
-  const [vibro, setVibro] = useState();
+  
+  const contextValue=useContext(AppStateContext);
+  const {quantity,vibration,updateQuantity,updateVibration}=contextValue;
+  // const [quantity1, setQuantity] = useState(quantity);
+  // const [vibro1, setVibro] = useState(vibration);
   const navigation = useNavigation();
-  // console.log(quantity);
+   console.log(quantity);
+   console.log(vibration);
+
   const changeVibro = () => {
-    if (vibro) {
-      setVibro(false);
+    if (vibration) {
+      updateVibration(false);
     }else{
-      setVibro(true);
+      updateVibration(true);
     }
   };
   const changeQuantity = () => {
     if (quantity <= 2) {
-      setQuantity((quantity) => quantity + 1);
-     
+      updateQuantity((quantity) => quantity + 1);
     }
     
   };
   const play = () => {
-    navigation.navigate('SportSprint', { quantity,vibro });
+    navigation.navigate('SportSprint', { quantity });
   };
   const defaultOption = () => {
-    setVibro(false);
-    setQuantity(CONSTANTS.GAME_QUANTITY);
+    updateVibration(false);
+    updateQuantity(CONSTANTS.GAME_QUANTITY);
   };
  
 
@@ -75,7 +80,7 @@ const Menu = () => {
         text={'Quantity indians UP:'}
         quantity={quantity}
       />
-      <VibroBtn onPress={changeVibro} vibro={vibro} text={'Vibration'}/>
+      <VibroBtn onPress={changeVibro} vibro={vibration} text={'Vibration'}/>
       <ResetBtn onPress={defaultOption} text={'Reset options'} />
     </Space>
   );
