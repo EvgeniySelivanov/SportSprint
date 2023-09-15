@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
-
+import { CONSTANTS } from '../constants';
 export const AppStateContext = createContext();
 
 export const AppStateProvider = ({ children }) => {
-  const [quantity, setQuantity] = useState(1);
-  const [vibration, setVibration] = useState(false);
+  const [quantity, setQuantity] = useState(CONSTANTS.INDIANS_QUANTITY);
+  const [vibration, setVibration] = useState(CONSTANTS.GAME_VIBRO);
 
   const updateQuantity = (newData) => {
     setQuantity(newData);

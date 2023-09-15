@@ -38,15 +38,9 @@ const StyledMenu = styled.Text`
 `;
 
 const Menu = () => {
-  
   const contextValue=useContext(AppStateContext);
   const {quantity,vibration,updateQuantity,updateVibration}=contextValue;
-  // const [quantity1, setQuantity] = useState(quantity);
-  // const [vibro1, setVibro] = useState(vibration);
   const navigation = useNavigation();
-   console.log(quantity);
-   console.log(vibration);
-
   const changeVibro = () => {
     if (vibration) {
       updateVibration(false);
@@ -67,9 +61,6 @@ const Menu = () => {
     updateVibration(false);
     updateQuantity(CONSTANTS.GAME_QUANTITY);
   };
- 
-
-
   
   return (
     <Space source={bgImage}>

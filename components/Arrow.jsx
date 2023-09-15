@@ -37,7 +37,7 @@ const Arrow = ({ arrowValueChange }) => {
 const styles = StyleSheet.create({
   draggable: {
     position: 'absolute',
-    width: 30,
+    width: 18,
     height: 120,
     zIndex: 10,
   },

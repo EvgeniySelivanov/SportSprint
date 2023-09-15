@@ -12,6 +12,7 @@ export const CONSTANTS = {
   SHAMAN_SIZE: { width: 75, height: 100 },
   ARROW_SIZE: { width: 12, height: 120 },
   COIN_SIZE:{width: 120, height: 120},
-  GAME_QUANTITY: 1,
+  INDIANS_QUANTITY: 1,
   GAME_VIBRO:false,
+  GAME_SPEED:14000,
 };

@@ -5,8 +5,8 @@ import { CONSTANTS } from '../constants';
 const image = require('../assets/indian_women.png');
 
 const IndianWomenImg = styled(Image)`
-  width: ${CONSTANTS.INDIAN_SIZE.width}px; /* Задайте нужную ширину */
-  height: ${CONSTANTS.INDIAN_SIZE.height}px; /* Максимальная высота изображения */
+  width: ${CONSTANTS.INDIAN_WOMEN_SIZE.width}px; /* Задайте нужную ширину */
+  height: ${CONSTANTS.INDIAN_WOMEN_SIZE.height}px; /* Максимальная высота изображения */
 `;
 
 const IndianWomen = () => {

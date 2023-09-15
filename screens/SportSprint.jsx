@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef,useContext  } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Animated,
@@ -9,6 +9,7 @@ import {
   Easing,
 } from 'react-native';
 import { CONSTANTS } from '../constants';
+import { AppStateContext } from './AppStateContext';
 import { Audio } from 'expo-av';
 import styled from 'styled-components/native';
 import StartMessage from '../components/StartMessage';
@@ -37,7 +38,8 @@ const ScoreText = styled.Text`
 `;
 
 const SportSprint = () => {
- 
+  const contextValue=useContext(AppStateContext);
+  const {quantity,updateQuantity}=contextValue;
   let arrowPosition = {
     x: CONSTANTS.ARROW_POSITION.x,
     y: CONSTANTS.ARROW_POSITION.y,
@@ -45,36 +47,25 @@ const SportSprint = () => {
   const arrowValueChange = (xPosition) => {
     arrowPosition.x = xPosition;
   };
-
-  
- 
-  const [speed,setSpeed]=useState(14000);
-  const[quantity,setQuantity]=useState(0);
+  const [speed,setSpeed]=useState(CONSTANTS.GAME_SPEED);
   const route = useRoute();
   const [isGameRun, setIsGameRun] = useState(false);
   const [sound, setSound] = useState();
   const [music, setMusic] = useState(false);
   const [coin, setCoin] = useState({ quant: 0, visibility: true });
 
-
-  useEffect(()=>{
-    if (route.params && route.params.quantity) {
-      setQuantity(route.params.quantity);
-    }
-  },[route.params]);
-
-
+//position obtacles
   const coinPosition = useRef(
     new Animated.ValueXY(CONSTANTS.COIN_POSITION)
   ).current;
   const indianPosition = useRef(
-    new Animated.ValueXY(CONSTANTS.INDIAN_POSITION)
+    new Animated.ValueXY(0)
   ).current;
   const indianWomenPosition = useRef(
-    new Animated.ValueXY(CONSTANTS.INDIAN_WOMEN_POSITION)
+    new Animated.ValueXY(0)
   ).current;
   const shamanPosition = useRef(
-    new Animated.ValueXY(CONSTANTS.SHAMAN_POSITION)
+    new Animated.ValueXY(0)
   ).current;
  
 const getRandom=()=>{
@@ -82,46 +73,101 @@ const getRandom=()=>{
   return random;
 }
 
-
+//animation
   moveCoin = () => {
-    Animated.timing(coinPosition, {
+    if(isGameRun){
+      Animated.timing(coinPosition, {
       toValue: { x: getRandom(), y: CONSTANTS.SCREEN_HEIGHT + 550 },
       duration: speed, // Длительность анимации в миллисекундах
       useNativeDriver: false, // Используем JavaScript анимацию
       easing: Easing.linear,
-    }).start();
+    }).start();}
+    
   };
   moveIndian = () => {
-    Animated.timing(indianPosition, {
+    if(isGameRun){
+      Animated.timing(indianPosition, {
       toValue: { x: getRandom(), y: CONSTANTS.SCREEN_HEIGHT + 550 },
       duration: speed, // Длительность анимации в миллисекундах
       useNativeDriver: false, // Используем JavaScript анимацию
       easing: Easing.linear,
-    }).start();
+    }).start(()=>{
+      indianPosition.setValue({
+        x: getRandom(),
+        y: CONSTANTS.INDIAN_POSITION.y,
+      });
+      if(quantity===1&&speed>=2000){
+        setSpeed((speed)=>speed-600);
+        moveCoin();
+        moveIndian();
+      }else if(quantity===1&&speed<=2000){
+        moveCoin();
+        moveIndian();
+      }
+    });}
+    
   };
-  moveIndianWomen = () => {
+
+ moveIndianWomen =()=>{
+  if(isGameRun){ 
     Animated.timing(indianWomenPosition, {
-      toValue: { x: getRandom(), y: CONSTANTS.SCREEN_HEIGHT + 550 },
-      duration: speed, // Длительность анимации в миллисекундах
-      useNativeDriver: false, // Используем JavaScript анимацию
-      easing: Easing.linear,
-    }).start();
-  };
+    toValue: { x: getRandom(), y: CONSTANTS.SCREEN_HEIGHT + 550 },
+    duration: speed, // Длительность анимации в миллисекундах
+    useNativeDriver: false, // Используем JavaScript анимацию
+    easing: Easing.linear,
+  }).start(()=>{
+    console.log(isGameRun);
+    indianWomenPosition.setValue({
+      x: getRandom(),
+      y: CONSTANTS.INDIAN_WOMEN_POSITION.y,
+    });
+    if(quantity===2&&speed>=2000&&isGameRun!=false){
+      setSpeed((speed)=>speed-600);
+      moveCoin();
+        moveIndian();
+        moveIndianWomen();
+    }else if(quantity===2&&speed<=2000&&isGameRun!=false){
+        moveCoin();
+        moveIndian();
+        moveIndianWomen();
+    }
+  });}
+ } 
+  
   moveShaman = () => {
-    Animated.timing(shamanPosition, {
+    if(isGameRun){
+      Animated.timing(shamanPosition, {
       toValue: { x: 210, y: CONSTANTS.SCREEN_HEIGHT + 550 },
       duration: speed, // Длительность анимации в миллисекундах
       useNativeDriver: false, // Используем JavaScript анимацию
       easing: Easing.linear,
-    }).start();
+    }).start(()=>{
+      shamanPosition.setValue({
+        x: getRandom(),
+        y: CONSTANTS.SHAMAN_POSITION.y,
+      });
+      if(quantity===3&&speed>=2000&isGameRun!=false){
+        setSpeed((speed)=>speed-600);
+        moveCoin();
+        moveIndian();
+        moveIndianWomen();
+        moveShaman();
+      }else if(quantity===3&&speed<=2000&isGameRun!=false){
+        moveCoin();
+        moveIndian();
+        moveIndianWomen();
+        moveShaman();
+      }
+    });}
+    
   };
-
+//turn on music
   useEffect(() => {
     if (isGameRun && music) {
       playSound();
     }
   }, [music]);
-
+//check coins bonus
   useEffect(() => {
     if (isGameRun) {
       coinPosition.addListener((value) => {
@@ -147,39 +193,65 @@ const getRandom=()=>{
     }
   }, [coinPosition, arrowPosition]);
 
-
-//restartn animation
-  useEffect(() => {
-    indianPosition.y.addListener(({value}) => {
-    const yPosition=value;
-    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 65&&speed>=2000&&quantity===1){
-      setSpeed((speed)=>speed-600);
-      startGame();
-    }
-  });
-  indianWomenPosition.y.addListener(({value}) => {
-    const yPosition=value;
-    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 150&&speed>=2000&&quantity===2){
-      setSpeed((speed)=>speed-600);
-      startGame();
-    }
-  });
-  shamanPosition.y.addListener(({value}) => {
-    const yPosition=value;
-    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 550&&speed>=2000&&quantity===3){
-      setSpeed((speed)=>speed-600);
-      startGame();
-    }
-  });
-  return () => {
-    shamanPosition.y.removeAllListeners();
-    indianPosition.y.removeAllListeners();
-    indianWomenPosition.y.removeAllListeners();
-  };
-  
-}, [shamanPosition.y,indianPosition.y,indianWomenPosition.y,quantity]);
-
-
+//check colisions
+useEffect(() => {
+  if (isGameRun) {
+    indianPosition.addListener((value) => {
+      const xPosition = value.x;
+      const yPosition = value.y;
+      if (
+        (arrowPosition.x >= xPosition &&
+        arrowPosition.x <= xPosition + CONSTANTS.INDIAN_SIZE.width) &&
+        (arrowPosition.y <= yPosition-190 &&
+        arrowPosition.y + CONSTANTS.ARROW_SIZE.height >= yPosition-190)
+      ) {
+        gameOver();
+      }
+    });
+    return () => {
+      indianPosition.removeAllListeners();
+    };
+  }
+}, [indianPosition, arrowPosition]);
+useEffect(() => {
+  if (isGameRun) {
+    indianWomenPosition.addListener((value) => {
+      const xPosition = value.x;
+      const yPosition = value.y;
+      if (
+        (arrowPosition.x >= xPosition &&
+        arrowPosition.x <= xPosition + CONSTANTS.INDIAN_WOMEN_SIZE.width) &&
+        (arrowPosition.y <= yPosition-290 &&
+        arrowPosition.y + CONSTANTS.ARROW_SIZE.height >= yPosition-290)
+      ) {
+        gameOver();
+      }
+    });
+    return () => {
+      indianWomenPosition.removeAllListeners();
+    };
+  }
+}, [indianWomenPosition, arrowPosition]);
+useEffect(() => {
+  if (isGameRun) {
+    shamanPosition.addListener((value) => {
+      const xPosition = value.x;
+      const yPosition = value.y;
+      if (
+        (arrowPosition.x >= xPosition &&
+        arrowPosition.x <= xPosition + CONSTANTS.SHAMAN_SIZE.width) &&
+        (arrowPosition.y <= yPosition-390 &&
+        arrowPosition.y + CONSTANTS.ARROW_SIZE.height >= yPosition-390)
+      ) {
+        gameOver();
+      }
+    });
+    return () => {
+      shamanPosition.removeAllListeners();
+    };
+  }
+}, [shamanPosition, arrowPosition]);
+//play music
   async function playSound() {
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/music.mp3')
@@ -187,50 +259,60 @@ const getRandom=()=>{
     setSound(sound);
     await sound.playAsync(); // Проигрывание аудио
   }
-
+//stop music
   const stopMusic = async () => {
     await sound.stopAsync();
     setMusic(false);
   };
 
-  const gameOver = () => {
-    Animated.timing(shamanPosition).stop();
-    Animated.timing(indianPosition).stop();
-    Animated.timing(indianWomenPosition).stop();
-    Animated.timing(coinPosition).stop();
-    setCoin((coin) => ({
+  const gameOver = async() => {
+    await setIsGameRun(false);
+   await Animated.timing(indianWomenPosition).stop();
+   await Animated.timing(shamanPosition).stop();
+   await Animated.timing(indianPosition).stop();
+   await Animated.timing(coinPosition).stop();
+   await indianPosition.setValue({
+      x: getRandom(),
+      y: CONSTANTS.INDIAN_POSITION.y,
+    });
+    await  indianWomenPosition.setValue({
+      x: getRandom(),
+      y: CONSTANTS.INDIAN_WOMEN_POSITION.y,
+    });
+    await  shamanPosition.setValue({
+      x: getRandom(),
+      y: CONSTANTS.SHAMAN_POSITION.y,
+    });
+    await  setCoin((coin) => ({
       ...coin,
       quant:0,
     }));
-    
-    setSpeed(14000);
-    setIsGameRun(false);
+    await  setSpeed(14000);
     console.log('game stop');
   };
-
-
-  const startGame = () => {
+  const startGame =async () => {
+   await setIsGameRun(true);
+   await indianPosition.setValue({
+    x: getRandom(),
+    y: CONSTANTS.INDIAN_POSITION.y,
+  });
+  await  indianWomenPosition.setValue({
+    x: getRandom(),
+    y: CONSTANTS.INDIAN_WOMEN_POSITION.y,
+  });
+  await  shamanPosition.setValue({
+    x: getRandom(),
+    y: CONSTANTS.SHAMAN_POSITION.y,
+  });
     coinPosition.setValue({
       x: getRandom(),
       y: CONSTANTS.COIN_POSITION.y,
     });
-    indianPosition.setValue({
-      x: getRandom(),
-      y: CONSTANTS.INDIAN_POSITION.y,
-    });
-    indianWomenPosition.setValue({
-      x: getRandom(),
-      y: CONSTANTS.INDIAN_WOMEN_POSITION.y,
-    });
-    shamanPosition.setValue({
-      x: getRandom(),
-      y: CONSTANTS.SHAMAN_POSITION.y,
-    });
+ 
     setCoin((coin) => ({
       ...coin,
       visibility: true,
     }));
-    setIsGameRun(true);
     if(quantity===1){
       moveCoin();
       moveIndian();
@@ -238,6 +320,7 @@ const getRandom=()=>{
       moveCoin();
       moveIndian();
       moveIndianWomen();
+
     }else if(quantity===3){
       moveCoin();
       moveIndian();
@@ -245,7 +328,6 @@ const getRandom=()=>{
       moveShaman();
     }
     console.log('game start');
-    console.log(quantity);
   };
 
   return (
@@ -275,7 +357,7 @@ const getRandom=()=>{
         )}
         <Animated.View
           style={[
-            { position: 'absolute', marginTop: 25 },
+            { position: 'absolute'},
             { transform: coinPosition.getTranslateTransform() },
           ]}
         >
@@ -285,7 +367,6 @@ const getRandom=()=>{
           style={[
             {
               position: 'absolute',
-              marginTop: 25,
               top: CONSTANTS.INDIAN_POSITION.y,
             },
             { transform: indianPosition.getTranslateTransform() },
@@ -297,11 +378,11 @@ const getRandom=()=>{
           style={[
             {
               position: 'absolute',
-              marginTop: 25,
               top: CONSTANTS.INDIAN_WOMEN_POSITION.y,
             },
             { transform: indianWomenPosition.getTranslateTransform() },
           ]}
+          ref={indianWomenPosition}
         >
           <IndianWomen />
         </Animated.View>
@@ -309,11 +390,11 @@ const getRandom=()=>{
           style={[
             {
               position: 'absolute',
-              marginTop: 25,
               top: CONSTANTS.SHAMAN_POSITION.y,
             },
             { transform: shamanPosition.getTranslateTransform() },
           ]}
+          ref={shamanPosition}
         >
           <Shaman />
         </Animated.View>
