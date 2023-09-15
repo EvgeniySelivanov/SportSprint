@@ -45,9 +45,9 @@ const SportSprint = () => {
     arrowPosition.x = xPosition;
   };
 
-  let speed = 9000;
   const route = useRoute();
   let quantity = route.params.quantity;
+  const [speed,setSpeed]=useState(14000);
   const [isGameRun, setIsGameRun] = useState(false);
   const [sound, setSound] = useState();
   const [music, setMusic] = useState(false);
@@ -141,7 +141,9 @@ const getRandom=()=>{
   useEffect(() => {
     shamanPosition.y.addListener(({value}) => {
     const yPosition=value;
-    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 550){
+    if(yPosition >= CONSTANTS.SCREEN_HEIGHT + 550&&speed>=2000){
+      setSpeed((speed)=>speed-600);
+      
       startGame();
     }
   });
@@ -199,6 +201,7 @@ const getRandom=()=>{
     moveIndianWomen();
     moveShaman();
     console.log('game start');
+    console.log(speed);
   };
 
   return (
