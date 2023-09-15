@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import MenuBtn from './MenuBtn';
-import SoundBtn from './SoundBtn';
+import MenuBtn from './Btns/MenuBtn';
+import SoundBtn from './Btns/SoundBtn';
 const Header = ({ gameOver, setMusic, music,stopMusic }) => {
   const navigation = useNavigation();
   const goToMenu = () => {
