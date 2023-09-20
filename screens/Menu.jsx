@@ -59,7 +59,7 @@ const Menu = () => {
   };
   const defaultOption = () => {
     updateVibration(false);
-    updateQuantity(CONSTANTS.GAME_QUANTITY);
+    updateQuantity(CONSTANTS.INDIANS_QUANTITY);
   };
   
   return (

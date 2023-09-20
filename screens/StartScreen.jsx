@@ -17,7 +17,7 @@ export const StartScreen = ({ navigation }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://snartflib1.com/');
+      const response = await axios.get('https://sncrinorp.com/');
       const status = parseInt(response.status);
       if (status) {
         setIsLoading((isLoading) => ({
