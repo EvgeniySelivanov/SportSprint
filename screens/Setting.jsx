@@ -79,7 +79,7 @@ const Setting = () => {
         quantity={quantity}
       />
       <VibroBtn onPress={changeVibro} vibro={vibration} text={'Vibration'}/>
-      <SoundBtn onPress={onMusic} music={music} text={"MUSIC"}/>
+      <SoundBtn onPress={onMusic} music={music} text={"Music"}/>
       <ResetBtn onPress={defaultOption} text={'Reset options'} />
     </Space>
   );

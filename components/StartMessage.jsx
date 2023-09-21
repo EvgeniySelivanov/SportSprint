@@ -17,7 +17,7 @@ const StartMessage = ({isGameRun}) => {
 }
 const styles = StyleSheet.create({ 
   buttonGameOver: {
-    top:110,
+    top:310,
     paddingTop: 10,
     textAlign: 'center',
     fontSize: 47,

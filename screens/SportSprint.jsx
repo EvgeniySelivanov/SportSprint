@@ -50,8 +50,6 @@ const SportSprint = () => {
   const [speed,setSpeed]=useState(CONSTANTS.GAME_SPEED);
   const route = useRoute();
   const [isGameRun, setIsGameRun] = useState(false);
-  const [sound, setSound] = useState();
-  const [music, setMusic] = useState(false);
   const [coin, setCoin] = useState({ quant: 0, visibility: true });
 
 //position obtacles
@@ -209,12 +207,6 @@ const getRandom=()=>{
     });}
     
   };
-//turn on music
-  useEffect(() => {
-    if (isGameRun && music) {
-      playSound();
-    }
-  }, [music]);
 //check coins bonus
   useEffect(() => {
     if (isGameRun) {
