@@ -97,10 +97,26 @@ const getRandom=()=>{
         y: CONSTANTS.INDIAN_POSITION.y,
       });
       if(quantity===1&&speed>=2000){
+        coinPosition.setValue({
+          x: getRandom(),
+          y: CONSTANTS.COIN_POSITION.y,
+        });
+        setCoin((coin) => ({
+          ...coin,
+          visibility: true,
+        }));
         setSpeed((speed)=>speed-600);
         moveCoin();
         moveIndian();
       }else if(quantity===1&&speed<=2000){
+        coinPosition.setValue({
+          x: getRandom(),
+          y: CONSTANTS.COIN_POSITION.y,
+        });
+        setCoin((coin) => ({
+          ...coin,
+          visibility: true,
+        }));
         moveCoin();
         moveIndian();
       }
@@ -122,11 +138,27 @@ const getRandom=()=>{
       y: CONSTANTS.INDIAN_WOMEN_POSITION.y,
     });
     if(quantity===2&&speed>=2000&&isGameRun!=false){
+      coinPosition.setValue({
+        x: getRandom(),
+        y: CONSTANTS.COIN_POSITION.y,
+      });
+      setCoin((coin) => ({
+        ...coin,
+        visibility: true,
+      }));
       setSpeed((speed)=>speed-600);
       moveCoin();
         moveIndian();
         moveIndianWomen();
     }else if(quantity===2&&speed<=2000&&isGameRun!=false){
+      coinPosition.setValue({
+        x: getRandom(),
+        y: CONSTANTS.COIN_POSITION.y,
+      });
+      setCoin((coin) => ({
+        ...coin,
+        visibility: true,
+      }));
         moveCoin();
         moveIndian();
         moveIndianWomen();
@@ -147,12 +179,28 @@ const getRandom=()=>{
         y: CONSTANTS.SHAMAN_POSITION.y,
       });
       if(quantity===3&&speed>=2000&isGameRun!=false){
+        coinPosition.setValue({
+          x: getRandom(),
+          y: CONSTANTS.COIN_POSITION.y,
+        });
+        setCoin((coin) => ({
+          ...coin,
+          visibility: true,
+        }));
         setSpeed((speed)=>speed-600);
         moveCoin();
         moveIndian();
         moveIndianWomen();
         moveShaman();
       }else if(quantity===3&&speed<=2000&isGameRun!=false){
+        coinPosition.setValue({
+          x: getRandom(),
+          y: CONSTANTS.COIN_POSITION.y,
+        });
+        setCoin((coin) => ({
+          ...coin,
+          visibility: true,
+        }));
         moveCoin();
         moveIndian();
         moveIndianWomen();
@@ -251,19 +299,7 @@ useEffect(() => {
     };
   }
 }, [shamanPosition, arrowPosition]);
-//play music
-  async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require('../assets/music.mp3')
-    );
-    setSound(sound);
-    await sound.playAsync(); // Проигрывание аудио
-  }
-//stop music
-  const stopMusic = async () => {
-    await sound.stopAsync();
-    setMusic(false);
-  };
+
 
   const gameOver = async() => {
     await setIsGameRun(false);
@@ -335,9 +371,6 @@ useEffect(() => {
       <Space source={bgImage}>
         <Header
           gameOver={gameOver}
-          setMusic={setMusic}
-          music={music}
-          stopMusic={stopMusic}
         />
         {isGameRun && (
           <View>
