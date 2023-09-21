@@ -15,7 +15,7 @@ const Decoration = ({ speed, positionY, positionX, imageName }) => {
   const animateBackground = () => {
     Animated.loop(
       Animated.timing(translateY, {
-        toValue: CONSTANTS.SCREEN_HEIGHT / 2, 
+        toValue: CONSTANTS.SCREEN_HEIGHT / 2.4, 
         duration: speed, 
         useNativeDriver: false,
       })

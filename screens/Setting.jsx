@@ -52,7 +52,7 @@ const Setting = () => {
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/music.mp3')
     );
-    updateSound(sound);
+   await updateSound(sound);
     await sound.playAsync(); // Проигрывание аудио
   }
   const stopMusic = async () => {
