@@ -5,6 +5,8 @@ import  {AppStateProvider}  from './AppStateContext';
 import SportSprint from './SportSprint';
 import { StartScreen } from './StartScreen';
 import Menu from './Menu';
+import Setting from './Setting';
+
 import WebViewScreen from './WebViewScreen';
 
 const Stack = createNativeStackNavigator();
@@ -17,6 +19,7 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="WebViewScreen" component={WebViewScreen}/>
         <Stack.Screen name="SportSprint" component={SportSprint} options={{ headerShown: false }}/>
         <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }}/>
+        <Stack.Screen name="Setting" component={Setting} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

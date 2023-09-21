@@ -27,6 +27,7 @@ const Decoration = ({ speed, positionY, positionX, imageName }) => {
       source={link} 
       style={{
         position: 'absolute',
+        width:"100%",
         top: positionY,
         left: positionX,
         zIndex:0,

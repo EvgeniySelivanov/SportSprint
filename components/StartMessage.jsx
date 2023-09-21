@@ -8,7 +8,7 @@ const StartMessage = ({isGameRun}) => {
             <Text></Text>
           ) : (
             <Text style={styles.buttonGameOver}>
-              Touch screen to start.
+              Touch  to play.
             </Text>
           )}
         </View>
@@ -20,9 +20,10 @@ const styles = StyleSheet.create({
     top:110,
     paddingTop: 10,
     textAlign: 'center',
-    fontSize: 37,
-    color: 'blue',
-    backgroundColor:'white'
+    fontSize: 47,
+    color: 'rgb(55, 11, 127)',
+    backgroundColor: 'rgba(55, 255, 192, 0.4)',
+
   },
 });
 export default StartMessage;

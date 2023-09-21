@@ -1,11 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'; 
 const MenuBtn = ({ onPress, text }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
-      <MaterialCommunityIcons name="menu" size={24} color="blue" />
-      <Text style={styles.buttonText}>{text}</Text>
+      <Ionicons name="options" size={24} color="white" />
     </TouchableOpacity>
   );
 };
@@ -13,7 +12,7 @@ const styles = {
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#e8d665',
+    backgroundColor: '#376eef',
     padding: 3,
     borderRadius: 5,
   },

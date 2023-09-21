@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { Entypo } from '@expo/vector-icons';  
+import {styles} from './styles';
 import styled from 'styled-components/native';
 const Span = styled.Text`
   
@@ -19,22 +20,5 @@ const QuantityBtn = ({ onPress, text,quantity }) => {
     </TouchableOpacity>
   );
 };
-const styles = {
-  button: {
-    justifyContent:'space-between',
-    height:60,
-    paddingLeft:12,
-    paddingRight:12,
-    margin:10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#433281',
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight:700,
-  },
-};
+
 export default QuantityBtn;
