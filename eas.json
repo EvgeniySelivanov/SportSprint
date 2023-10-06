@@ -13,6 +13,11 @@
     "preview3": {
       "developmentClient": true
     },
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "node":"18.13.0"
+    }
   }
 }

@@ -4,7 +4,7 @@
     "slug": "SportSprint",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "",
+    "icon": "./assets/iconApk.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "",
