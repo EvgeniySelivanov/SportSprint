@@ -2,12 +2,22 @@
   "expo": {
     "name": "SportSprint",
     "slug": "SportSprint",
+    "developer": {
+      "name": "Evheniy Selivanov",
+      "contact": "genyaselivanovzp@gmail.com"
+    },
     "version": "1.0.0",
+    "permissions": [
+      "CAMERA",
+      "AUDIO_RECORDING",
+      "LOCATION",
+      "CALENDAR"
+    ],
     "orientation": "portrait",
     "icon": "./assets/iconApk.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "",
+      "image": "./assets/iconApk.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
